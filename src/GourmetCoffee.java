@@ -225,13 +225,12 @@ public class GourmetCoffee  {
                 new FileWriter(file)
         );
         try {
+            bufferedWriter.write(content);
         } catch(Exception e ) {
             throw e;
         } finally {
             bufferedWriter.close();
         }
-
-		
 	}
 
 	/**
