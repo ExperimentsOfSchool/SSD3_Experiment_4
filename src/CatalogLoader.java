@@ -8,7 +8,6 @@ import java.io.*;
  * @see Catalog
  */
 public interface CatalogLoader  {
-
 	/*
 	 * Loads the product catalog with the data in the specified file.
 	 *

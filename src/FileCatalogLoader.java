@@ -5,6 +5,10 @@ import java.util.StringTokenizer;
  * Created by Lawrence on 15/10/31.
  */
 public class FileCatalogLoader implements CatalogLoader {
+    public static String path = "./data";
+    public FileCatalogLoader() {
+
+    }
     private Product readProduct (String line) throws DataFormatException {
         StringTokenizer stringTokenizer = new StringTokenizer(line, "_");
         String code, description;
@@ -45,28 +49,31 @@ public class FileCatalogLoader implements CatalogLoader {
         numberOfCups = Integer.parseInt(stringTokenizer.nextToken());
         return new CoffeeBrewer(code, description, price, model, waterSupply, numberOfCups);
     }
-
-    public FileCatalogLoader() {
-
-    }
     @Override
     public Catalog loadCatalog(String fileName) throws IOException, DataFormatException {
-        File file = new File(fileName);
+        File file = new File(path, fileName);
+        Catalog catalog = new Catalog();
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(file)
         );
-        String line;
-        while((line = bufferedReader.readLine()) != null) {
-            if(line.startsWith("Coffee")) {
-                readCoffee(line);
-            } else if(line.startsWith("Brewer")) {
-                readCoffeeBrewer(line);
-            } else if(line.startsWith("Product")) {
-                readProduct(line);
+        try {
+            String line;
+            while((line = bufferedReader.readLine()) != null) {
+                if(line.startsWith("Coffee")) {
+                    catalog.addProduct(readCoffee(line));
+                } else if(line.startsWith("Brewer")) {
+                    catalog.addProduct(readCoffeeBrewer(line));
+                } else if(line.startsWith("Product")) {
+                    catalog.addProduct(readProduct(line));
+                }
             }
+        } catch (Exception e) {
+            //System.err.print(e.toString());
+            throw e;
+        } finally {
+            bufferedReader.close();
         }
-        Catalog catalog = new Catalog();
         bufferedReader.close();
-        return null;
+        return catalog;
     }
 }

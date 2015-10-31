@@ -21,6 +21,7 @@ import java.text.*;
  * @see FileCatalogLoader
  */
 public class GourmetCoffee  {
+    public static String path = "./data";
 
 	private static BufferedReader  stdIn =
 		new  BufferedReader(new  InputStreamReader(System.in));
@@ -215,10 +216,21 @@ public class GourmetCoffee  {
 	 * @param filename name of the file that will store the data
 	 * @param content data to be stored
 	 */
-	private void writeFile(String filename, String content)
-		throws IOException {
+	private void writeFile(String filename, String content) throws IOException {
+        File file = new File(path, filename);
+        if(!file.exists()) {
+            file.createNewFile();
+        }
+        BufferedWriter bufferedWriter = new BufferedWriter(
+                new FileWriter(file)
+        );
+        try {
+        } catch(Exception e ) {
+            throw e;
+        } finally {
+            bufferedWriter.close();
+        }
 
-		/* PLACE YOUR CODE HERE */
 		
 	}
 
